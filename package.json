@@ -1,6 +1,6 @@
 {
   "name": "vscode-gjf",
-  "displayName": "Google Java Format for VS Code",
+  "displayName": "Google Java Format",
   "description": "google-java-format for vscode",
   "publisher": "liangchengj",
   "version": "0.0.1",
@@ -11,16 +11,20 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:vscode-gjf.helloWorld"
+    "onLanguage:java"
   ],
   "main": "./dist/extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "vscode-gjf.helloWorld",
-        "title": "Hello World"
+    "configuration": {
+      "title": "Google Java Format Configuration",
+      "properties": {
+        "vscode-gjf.execJarPath": {
+          "type": "string",
+          "default": null,
+          "description": "Path of google-java-format jar file"
+        }
       }
-    ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run package",
