@@ -24,13 +24,6 @@ class GJFDocumentRangeFormattingEditProvider implements vscode.DocumentRangeForm
 		_options: vscode.FormattingOptions,
 		_token: vscode.CancellationToken
 	): vscode.ProviderResult<vscode.TextEdit[]> {
-		if (!gjfExecJarPath && gjfExecJarPath.trim() !== '') {
-			vscode.window.showErrorMessage(
-				'vscode-gjf.execJarPath is not defined'
-			);
-			return Promise.resolve(null);
-		}
-
 		if (range.isEmpty) {
 			return Promise.resolve([]);
 		}
@@ -45,9 +38,15 @@ class GJFDocumentRangeFormattingEditProvider implements vscode.DocumentRangeForm
 			} as ExecSyncOptionsWithStringEncoding);
 			return Promise.resolve([vscode.TextEdit.replace(range, _stdout)]);
 		} catch (e) {
-			vscode.window.showErrorMessage(
-				`Run vscode-gjf with error: ${e}`
-			);
+			if (!gjfExecJarPath || gjfExecJarPath.trim() === '') {
+				vscode.window.showErrorMessage(
+					'vscode-gjf.execJarPath is not defined'
+				);
+			} else {
+				vscode.window.showErrorMessage(
+					`Run vscode-gjf with error: ${e}`
+				);
+			}
 			return Promise.reject(e);
 		}
 	}
