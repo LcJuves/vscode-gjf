@@ -15,8 +15,6 @@ const gjfDocumentFilter: vscode.DocumentFilter = {
 	scheme: 'file'
 };
 
-const gjfExecJarPath = vscode.workspace.getConfiguration('vscode-gjf').get('execJarPath') as string;
-
 class GJFDocumentRangeFormattingEditProvider implements vscode.DocumentRangeFormattingEditProvider {
 	provideDocumentRangeFormattingEdits(
 		document: vscode.TextDocument,
@@ -28,8 +26,10 @@ class GJFDocumentRangeFormattingEditProvider implements vscode.DocumentRangeForm
 			return Promise.resolve([]);
 		}
 
+		let _gjfExecJarPath = vscode.workspace.getConfiguration('vscode-gjf').get('execJarPath') as string;
+
 		try {
-			let _cmd: string = `java -jar ${gjfExecJarPath} -`;
+			let _cmd: string = `java -jar ${_gjfExecJarPath} -`;
 			let filesEncoding = vscode.workspace.getConfiguration('files').get('encoding') as string;
 			let _stdout: string = execSync(_cmd, {
 				encoding: filesEncoding,
@@ -38,7 +38,7 @@ class GJFDocumentRangeFormattingEditProvider implements vscode.DocumentRangeForm
 			} as ExecSyncOptionsWithStringEncoding);
 			return Promise.resolve([vscode.TextEdit.replace(range, _stdout)]);
 		} catch (e) {
-			if (!gjfExecJarPath || gjfExecJarPath.trim() === '') {
+			if (!_gjfExecJarPath || _gjfExecJarPath.trim() === '') {
 				vscode.window.showErrorMessage(
 					'vscode-gjf.execJarPath is not defined'
 				);
