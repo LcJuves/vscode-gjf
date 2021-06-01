@@ -20,7 +20,7 @@
       "properties": {
         "vscode-gjf.execJarPath": {
           "type": "string",
-          "default": null,
+          "default": "",
           "description": "Path of google-java-format jar file"
         }
       }
