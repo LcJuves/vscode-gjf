@@ -1,7 +1,7 @@
 {
   "name": "vscode-gjf",
   "displayName": "Google Java Format",
-  "description": "google-java-format for vscode",
+  "description": "Reformats Java source code to comply with Google Java Style for VS Code",
   "publisher": "liangchengj",
   "version": "0.0.1",
   "engines": {
