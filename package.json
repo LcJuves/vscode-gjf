@@ -15,28 +15,35 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
-    "configuration": [
+    "commands": [
       {
-        "title": "Google Java Format Configuration",
-        "properties": {
-          "vscode-gjf.execJarPath": {
-            "type": "string",
-            "default": "",
-            "description": "Path of google-java-format jar file"
-          }
-        }
-      },
+        "command": "vscode-gjf.fix-imports-only",
+        "title": "Fix import order and remove any unused imports, but do no other formatting"
+      }
+    ],
+    "keybindings": [
       {
-        "title": "Google Java Format Configuration",
-        "properties": {
-          "vscode-gjf.useAOSPStyle": {
-            "type": "boolean",
-            "default": false,
-            "description": "Use AOSP style instead of Google Style"
-          }
+        "command": "vscode-gjf.fix-imports-only",
+        "key": "alt+shift+o",
+        "when": "resourceLangId == java"
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Google Java Format Configuration",
+      "properties": {
+        "vscode-gjf.execJarPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path of google-java-format jar file"
+        },
+        "vscode-gjf.useAOSPStyle": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use AOSP style instead of Google Style"
         }
       }
-    ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run package",
