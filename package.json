@@ -15,16 +15,28 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
-    "configuration": {
-      "title": "Google Java Format Configuration",
-      "properties": {
-        "vscode-gjf.execJarPath": {
-          "type": "string",
-          "default": "",
-          "description": "Path of google-java-format jar file"
+    "configuration": [
+      {
+        "title": "Google Java Format Configuration",
+        "properties": {
+          "vscode-gjf.execJarPath": {
+            "type": "string",
+            "default": "",
+            "description": "Path of google-java-format jar file"
+          }
+        }
+      },
+      {
+        "title": "Google Java Format Configuration",
+        "properties": {
+          "vscode-gjf.useAOSPStyle": {
+            "type": "boolean",
+            "default": false,
+            "description": "Use AOSP style instead of Google Style"
+          }
         }
       }
-    }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "yarn run package",

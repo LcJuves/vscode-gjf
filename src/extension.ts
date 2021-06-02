@@ -6,9 +6,9 @@
 
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
+import { execSync, ExecSyncOptionsWithStringEncoding } from 'child_process';
 import * as vscode from 'vscode';
 
-import { execSync, ExecSyncOptionsWithStringEncoding } from 'child_process';
 
 const gjfDocumentFilter: vscode.DocumentFilter = {
 	language: 'java',
@@ -25,11 +25,15 @@ class GJFDocumentRangeFormattingEditProvider implements vscode.DocumentRangeForm
 		if (range.isEmpty) {
 			return Promise.resolve([]);
 		}
-
-		let _gjfExecJarPath = vscode.workspace.getConfiguration('vscode-gjf').get('execJarPath') as string;
+		let gjfConfig = vscode.workspace.getConfiguration('vscode-gjf');
+		let _gjfExecJarPath = gjfConfig.get('execJarPath') as string;
 
 		try {
-			let _cmd: string = `java -jar ${_gjfExecJarPath} -`;
+			let _useAOSPStyle = gjfConfig.get('useAOSPStyle') as boolean;
+
+			let _cmd: string = `java -jar ${_gjfExecJarPath}`;
+			if (_useAOSPStyle) { _cmd += ' --aosp'; }
+			_cmd += ' -';
 			let filesEncoding = vscode.workspace.getConfiguration('files').get('encoding') as string;
 			let _stdout: string = execSync(_cmd, {
 				encoding: filesEncoding,
