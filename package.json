@@ -19,12 +19,21 @@
       {
         "command": "vscode-gjf.fix-imports-only",
         "title": "Fix import order and remove any unused imports, but do no other formatting"
+      },
+      {
+        "command": "vscode-gjf.format-with-selection",
+        "title": "Use Google Java Format to format the selected text"
       }
     ],
     "keybindings": [
       {
         "command": "vscode-gjf.fix-imports-only",
         "key": "alt+shift+o",
+        "when": "resourceLangId == java"
+      },
+      {
+        "command": "vscode-gjf.format-with-selection",
+        "key": "alt+shift+s",
         "when": "resourceLangId == java"
       }
     ],
