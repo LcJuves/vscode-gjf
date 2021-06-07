@@ -55,7 +55,9 @@ class GJFDocumentRangeFormattingEditProvider implements vscode.DocumentRangeForm
 
 
 function _execGJFJarSync(gjfConfigOptions: GJFConfigOptions, input: string, cmdOptions: string): string {
-	return execSync(`java -jar ${gjfConfigOptions.execJarPath} ${cmdOptions}`, {
+	let _cmd = `java -jar ${gjfConfigOptions.execJarPath} ${cmdOptions}`;
+	console.log(`vscode-gjf >>> ${_cmd}`);
+	return execSync(_cmd, {
 		encoding: workspaceConfigurationOf('files').get('encoding') as string,
 		input: input,
 		windowsHide: true
@@ -97,25 +99,23 @@ function _vscodeGJFFormatWithSelection(textEditor: vscode.TextEditor, edit: vsco
 	try {
 		let _cmdOptions: string = '--skip-removing-unused-imports';
 		if (gjfConfigOptions.useAOSPStyle) { _cmdOptions += ' --aosp'; }
-		let _startPosition = textEditor.selection.start;
-		let _length = textEditor.document.getText(textEditor.selection).length;
-		_cmdOptions += ` --line=${_startPosition.line} --offset=${_startPosition.character}`;
+		let _selectedText = textEditor.document.getText(textEditor.selection);
+		let _startPosition = textEditor.document.positionAt(textEditor.document.getText().indexOf(_selectedText));
+		let _length = _selectedText.length;
+
+		// --lines, -lines, --line, -line
+		//   Line range(s) to format, like 5:10 (1-based; default is all).
+		// --offset, -offset
+		//   Character offset to format (0-based; default is all).
+		_cmdOptions += ` --line=${_startPosition.line + 1} --offset=${_startPosition.character}`;
 		_cmdOptions += ` --length=${_length}`;
 		_cmdOptions += ' -';
 
 		let _input = textEditor.document.getText();
 		let _stdout: string = _execGJFJarSync(gjfConfigOptions, _input, _cmdOptions);
 
-		let _endPosition = textEditor.selection.end;
-		let _beforeOffset = textEditor.document.offsetAt(_endPosition);
-
 		edit.replace(rangeOfDocument(textEditor.document), _stdout);
 
-		let _affectedLength = _stdout.length - _input.length;
-		textEditor.selection = new vscode.Selection(
-			_startPosition,
-			textEditor.document.positionAt(_beforeOffset + _affectedLength)
-		);
 	} catch (e) {
 		_resolveExecJarPathError(gjfConfigOptions, e);
 	}
