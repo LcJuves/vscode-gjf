@@ -1,8 +1,8 @@
 {
   "name": "vscode-gjf",
-  "displayName": "Google Java Format",
+  "displayName": "Java Formatter",
   "description": "Reformats Java source code to comply with Google Java Style for VS Code",
-  "publisher": "liangchengj",
+  "publisher": "lcjuves",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.56.0"
@@ -74,7 +74,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/LiangchengJ/vscode-gjf.git"
+    "url": "git+ssh://git@github.com/LcJuves/vscode-gjf.git"
   },
   "keywords": [
     "gjf",
@@ -84,7 +84,7 @@
   "author": "Liangcheng Juves",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/LiangchengJ/vscode-gjf/issues"
+    "url": "https://github.com/LcJuves/vscode-gjf/issues"
   },
-  "homepage": "https://github.com/LiangchengJ/vscode-gjf#readme"
+  "homepage": "https://github.com/LcJuves/vscode-gjf#readme"
 }
