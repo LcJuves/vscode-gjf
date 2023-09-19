@@ -1,5 +1,5 @@
 /**
- * Created at 2021/6/2 00:00.
+ * Created at 2021/6/2 00:00
  * 
  * @author Liangcheng Juves
  */
@@ -7,6 +7,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import { execSync, ExecSyncOptionsWithStringEncoding } from 'child_process';
+import { platform } from 'os';
 import * as vscode from 'vscode';
 
 const gjfDocumentFilter: vscode.DocumentFilter = {
@@ -15,15 +16,17 @@ const gjfDocumentFilter: vscode.DocumentFilter = {
 };
 
 interface GJFConfigOptions {
-	execJarPath?: string, /* Path of google-java-format jar file */
+	execJarPath: string, /* Path of google-java-format jar file for unix like system */
+	win32ExecJarPath: string, /* Path of google-java-format jar file for Windows */
 	useAOSPStyle: boolean /* Use AOSP style instead of Google Style */
 }
 
 function getGJFConfigOptions(): GJFConfigOptions {
 	let _gjfConfig = workspaceConfigurationOf('vscode-gjf');
 	return {
-		execJarPath: _gjfConfig.get('execJarPath') as string,
-		useAOSPStyle: _gjfConfig.get('useAOSPStyle') as boolean
+		execJarPath: _gjfConfig.get<string>('execJarPath') as string,
+		win32ExecJarPath: _gjfConfig.get<string>('win32ExecJarPath') as string,
+		useAOSPStyle: _gjfConfig.get<boolean>('useAOSPStyle') as boolean
 	};
 }
 
@@ -55,7 +58,8 @@ class GJFDocumentRangeFormattingEditProvider implements vscode.DocumentRangeForm
 
 
 function _execGJFJarSync(gjfConfigOptions: GJFConfigOptions, input: string, cmdOptions: string): string {
-	return execSync(`java -jar ${gjfConfigOptions.execJarPath} ${cmdOptions}`, {
+	const gjfJarPath = platform() === "win32" ? gjfConfigOptions.win32ExecJarPath : gjfConfigOptions.execJarPath;
+	return execSync(`java -jar ${gjfJarPath} ${cmdOptions}`, {
 		encoding: workspaceConfigurationOf('files').get('encoding') as string,
 		input: input,
 		windowsHide: true
@@ -63,7 +67,11 @@ function _execGJFJarSync(gjfConfigOptions: GJFConfigOptions, input: string, cmdO
 }
 
 function _resolveExecJarPathError(gjfConfigOptions: GJFConfigOptions, e: any) {
-	if (!gjfConfigOptions.execJarPath || gjfConfigOptions.execJarPath.trim() === '') {
+	if (platform() === "win32" && gjfConfigOptions.win32ExecJarPath.trim() === '') {
+		vscode.window.showErrorMessage(
+			'vscode-gjf.win32ExecJarPath is not defined'
+		);
+	} else if (gjfConfigOptions.execJarPath.trim() === '') {
 		vscode.window.showErrorMessage(
 			'vscode-gjf.execJarPath is not defined'
 		);

@@ -1,4 +1,5 @@
 # vscode-gjf
+
 ## Google Java Format for VS Code
 
 ## Extension Settings
@@ -9,41 +10,20 @@ For example:
 
 This extension contributes the following settings:
 
-* `vscode-gjf.execJarPath`: Path of google-java-format jar file
-such as
+- `vscode-gjf.execJarPath`: Path of [google-java-format-\<version>-all-deps.jar](https://github.com/google/google-java-format/releases) file for unix like system
 
-``` js
-"vscode-gjf.execJarPath": "/usr/local/bin/gjf.jar"
+```json
+"vscode-gjf.execJarPath": "/path/to/google-java-format-1.7-all-deps.jar"
 ```
 
-* `vscode-gjf.useAOSPStyle`: Use AOSP style instead of Google Style
+- `vscode-gjf.win32ExecJarPath`: Path of [google-java-format-\<version>-all-deps.jar](https://github.com/google/google-java-format/releases) file for Windows system
 
-## Known Issues
+```json
+"vscode-gjf.win32ExecJarPath": "C:\\path\\to\\google-java-format-1.7-all-deps.jar"
+```
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- `vscode-gjf.useAOSPStyle`: Use AOSP style instead of Google Style
 
-## Release Notes
-### 0.0.1
-Format the code and optimize imports
-
------------------------------------------------------------------------------------------------------------
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+```json
+"vscode-gjf.useAOSPStyle": true
+```

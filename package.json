@@ -3,7 +3,7 @@
   "displayName": "Google Java Formatter",
   "description": "Reformats Java source code to comply with Google Java Style for VS Code",
   "publisher": "lcjuves",
-  "version": "0.0.2",
+  "version": "0.0.7",
   "engines": {
     "vscode": "^1.56.0"
   },
@@ -13,6 +13,7 @@
   "activationEvents": [
     "onLanguage:java"
   ],
+  "icon": "./icon.png",
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
@@ -35,7 +36,12 @@
         "vscode-gjf.execJarPath": {
           "type": "string",
           "default": "",
-          "description": "Path of `google-java-format` jar file"
+          "description": "Path of `google-java-format` jar file for unix like system"
+        },
+        "vscode-gjf.win32ExecJarPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path of `google-java-format` jar file for Windows"
         },
         "vscode-gjf.useAOSPStyle": {
           "type": "boolean",
